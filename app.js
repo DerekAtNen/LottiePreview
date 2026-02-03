@@ -83,6 +83,7 @@ rendererSelect.addEventListener("change", () => {
 // --- Play/Pause controls ---
 playBtn.addEventListener("click", () => {
   if (playerEl) playerEl.play();
+  else if (currentUrl) createPlayer();
 });
 
 pauseBtn.addEventListener("click", () => {
@@ -91,9 +92,8 @@ pauseBtn.addEventListener("click", () => {
 
 // --- Loop toggle ---
 loopChk.addEventListener("change", () => {
-  if (!playerEl) return;
-  if (loopChk.checked) playerEl.setAttribute("loop", "");
-  else playerEl.setAttribute("loop", "false");
+  if (!currentUrl) return;
+  createPlayer();
 });
 
 // --- Set version display ---
