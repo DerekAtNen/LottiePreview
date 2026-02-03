@@ -13,19 +13,29 @@ const dropzone = document.getElementById("dropzone");
 // --- File handling logic ---
 async function handleFile(file) {
   if (!file) return;
+
   if (!file.name.toLowerCase().endsWith(".json")) {
     alert("Please upload a .json Lottie file.");
     return;
   }
 
-  const text = await file.text();
+  let text = await file.text();
+
+  // ✅ Strip UTF-8 BOM if present
+  if (text.charCodeAt(0) === 0xFEFF) {
+    text = text.slice(1);
+  }
+
   try {
-    JSON.parse(text); // ensure valid JSON
+    JSON.parse(text); // validate JSON
+
     currentUrl = URL.createObjectURL(
       new Blob([text], { type: "application/json" })
     );
+
     createPlayer();
   } catch (err) {
+    console.error(err);
     alert("Invalid JSON file.");
   }
 }
