@@ -1,3 +1,6 @@
+// Version code for tracking deployments
+const APP_VERSION = "0.0.1";
+
 let currentUrl = null;
 let playerEl = null;
 
@@ -46,8 +49,20 @@ upload.addEventListener("change", (e) => {
 });
 
 // --- Drag & Drop events ---
+// Prevent browser default drag behavior on the entire document
+document.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "copy";
+});
+
+document.addEventListener("drop", (e) => {
+  e.preventDefault();
+});
+
+// Handle drag & drop on dropzone
 dropzone.addEventListener("dragover", (e) => {
   e.preventDefault();
+  e.dataTransfer.dropEffect = "copy";
   dropzone.classList.add("dragover");
 });
 
@@ -109,3 +124,9 @@ loopChk.addEventListener("change", () => {
   if (loopChk.checked) playerEl.setAttribute("loop", "");
   else playerEl.setAttribute("loop", "false");
 });
+
+// --- Set version display ---
+const versionEl = document.getElementById("version");
+if (versionEl) {
+  versionEl.textContent = APP_VERSION;
+}
