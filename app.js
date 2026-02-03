@@ -1,5 +1,5 @@
 // Version code for tracking deployments
-const APP_VERSION = "0.0.1";
+const APP_VERSION = "0.0.2";
 
 let currentUrl = null;
 let playerEl = null;
@@ -49,34 +49,7 @@ upload.addEventListener("change", (e) => {
 });
 
 // --- Drag & Drop events ---
-// Prevent browser default drag behavior on the entire document
-document.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = "copy";
-});
-
-document.addEventListener("drop", (e) => {
-  e.preventDefault();
-});
-
-// Handle drag & drop on dropzone
-dropzone.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = "copy";
-  dropzone.classList.add("dragover");
-});
-
-dropzone.addEventListener("dragleave", () => {
-  dropzone.classList.remove("dragover");
-});
-
-dropzone.addEventListener("drop", (e) => {
-  e.preventDefault();
-  dropzone.classList.remove("dragover");
-  if (e.dataTransfer.files.length > 0) {
-    handleFile(e.dataTransfer.files[0]);
-  }
-});
+// Removed for now
 
 // --- Create or update player ---
 function createPlayer() {
@@ -103,10 +76,8 @@ function createPlayer() {
 
 // --- Renderer change ---
 rendererSelect.addEventListener("change", () => {
-  if (!playerEl) return;
-  playerEl.setAttribute("renderer", rendererSelect.value);
-  playerEl.stop();
-  playerEl.play();
+  if (!currentUrl) return;
+  createPlayer();
 });
 
 // --- Play/Pause controls ---
